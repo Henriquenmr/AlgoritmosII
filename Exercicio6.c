@@ -1,25 +1,35 @@
 #include <stdio.h>
 
-float calculosomatorio(int n) {
-    float resultado = 0.0f;
-    int sinal = 1;
-    
-    for (int i = 1; i <= n; i++) {
-        resultado += sinal * ((float)i / (i * i));
-        sinal *= -1;
+int buscaBinariaRec(int vetor[], int inicio, int fim, int chave) {
+    if (fim >= inicio) {
+        int meio = inicio + (fim - inicio) / 2;
+
+        if (vetor[meio] == chave) {
+            return meio;
+        }
+
+        if (vetor[meio] > chave) {
+            return buscaBinariaRec(vetor, inicio, meio - 1, chave);
+        }
+
+        return buscaBinariaRec(vetor, meio + 1, fim, chave);
     }
-    
-    return resultado;
+
+    return -1;
 }
 
 int main() {
-    int n;
-
-    printf("Digite um valor numérico: ");
-    scanf("%d", &n);
-
-    float resultado = calculosomatorio(n);
-    printf("O resultado do somatório é: %.14f\n", resultado);
-
+    int vetor[] = {2, 3, 4, 10, 40};
+    int tamanho = sizeof(vetor) / sizeof(vetor[0]);
+    int chave = 10;
+    int resultado = buscaBinariaRec(vetor, 0, tamanho - 1, chave);
+    
+    if (resultado != -1) {
+        printf("Elemento encontrado no índice %d\n", resultado);
+    } else {
+        printf("Elemento não encontrado no array\n");
+    }
+    
     return 0;
 }
+
